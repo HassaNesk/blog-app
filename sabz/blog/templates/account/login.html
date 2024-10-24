@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+    <form style="width: 100%;display: flex; flex-direction: column; column-gap: 50px;align-items: center; margin-bottom: 20px" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="">username
+            <input type="text" name="username"></label>
+        </div>
+        <div>
+            <label for="">password
+            <input type="password" name="password"></label>
+        </div>
+        
+        <input style="width: 250px" type="submit" value="enter">
+        
+    </form>
+    <a href="{% url "blog:post_list" %}">Post list</a>
+</body>
+</html>

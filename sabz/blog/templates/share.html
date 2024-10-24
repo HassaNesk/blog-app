@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Share post{% endblock  %}
+
+
+{% block body %}
+   <h1>صفحه تماس باما</h1>
+    {% if sent %}
+    	{{ sent }} با موفقیت
+        {% else %}
+        <p>doesnt sent email</p>
+    {% endif %} 
+    post title ={{ post.title }}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send">
+        <button><a href={% url 'blog:SingleP' post.slug post.id %}> back to post</a></button>
+    </form>
+    
+        {% if form.errors %}
+        <p>خطاها:</p>
+         {% for field in form %}
+            {% if field.errors %}
+              <ul>
+                 {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                 {% endfor %}
+            </ul>
+            {% endif %}
+         {% endfor %}
+            {{form.non_field_errors}} 
+        {% endif %}
+
+    
+
+    
+{% endblock  %}

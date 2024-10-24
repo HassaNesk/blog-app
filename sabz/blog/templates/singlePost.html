@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}{{post.title}}{% endblock  %}
+
+
+{% block body %}
+    <p>{{post.title}} : {{post.author}}</p>
+    <a href={% url 'blog:share' post.id %}>
+   Share Post
+   </a>
+    <br>
+    <a href={% url 'blog:post_list' %}>
+    Post List
+    </a>
+    <div>
+    <h2>Post Comment :</h2>
+    <p>post _ name _ comment</p>
+    {% for c in comments %}
+        {{ c }}
+    	{% empty %}
+        there is no comment
+    {% endfor %}
+    </div>
+
+
+    <form method="post" >
+    {% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit">
+    </form>
+    {% if new_comment %}
+        comment send
+        {% else %}
+        comment not send
+    {% endif %}
+    {% if form.errors %}
+        <p>خطاها:</p>
+         {% for field in form %}
+            {% if field.errors %}
+              <ul>
+                 {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                 {% endfor %}
+            </ul>
+            {% endif %}
+         {% endfor %}
+            {{form.non_field_errors}}
+        {% endif %}
+    <br>
+    post tags:
+    {% for tag in post.tags.all %}
+          <span style="color: crimson">#{{ tag }}</span> /
+    	
+    {% endfor %}
+    <br>
+    similsar_posts:
+    {% for post in similar_posts %}
+
+        <a href={{ post.get_abselute_url }}>
+            <span>  {{ post }}</span>  
+        {% if not forloop.last %}
+        	 |   
+        {% endif %} 
+        </a>
+    	
+    {% endfor %}
+    
+{#    {% now 'DATETIME_FORMAT' %}#}
+{% endblock  %}

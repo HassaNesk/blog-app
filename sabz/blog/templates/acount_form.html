@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Acount Form{% endblock  %}
+
+
+{% block body %}
+   <h1>فرم اطلاعات </h1>
+    <form  method="post">
+        {% csrf_token %}
+        <label for="">نام</label>
+        <input type="text" name='first'  {% if form.first.value %} value={{form.first.value}} {% else %}
+         value={{acount.user.first_name| default:"خالی" }}{% endif %} >
+        <br>
+        <label for=""> نام خانوادگی</label>
+        <input type="text" name='last' required {% if form.last.value %} value={{form.last.value}} {% else %}
+         value={{acount.user.last_name | default:"خالی"}}{% endif %} >
+        <br>
+        <label for=""> سن</label>
+        <input type="number" name='age' required {% if form.age.value %} value={{form.age.value}} {% else %}
+         value={{acount.age | default:"خالی"}}{% endif %} >
+        <br>
+        <label for="">جنسیت</label>
+        <br>
+        اقا
+        <input type="radio" {% if acount.gender == "آقا"  %} checked{% endif %} name="gender" value='آقا' id="">
+        <br>
+        خانم
+        <input type="radio" {% if acount.gender == "خانم"  %} checked{% endif %} name="gender" value='خانم' id="">
+        <br>
+        <label for="">آدرس</label>
+        <textarea type="text" name="address" {% if form.address.value %} value={{form.address.value}} {% endif %} id=""></textarea>
+        <input type="text" name="phone" disabled value={{acount.phone}}>
+        <input type="submit" value="ثبت">
+
+        {% if form.errors %}
+        <p>خطاها:</p>
+         {% for field in form %}
+            {% if field.errors %}
+              <ul>
+                 {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                 {% endfor %}
+            </ul>
+            {% endif %}
+         {% endfor %}
+            {% comment %} {{form.non_field_errors}} {% endcomment %}
+        {% endif %}
+
+    </form>
+
+    
+{% endblock  %}
